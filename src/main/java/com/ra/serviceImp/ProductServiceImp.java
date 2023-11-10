@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +42,14 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public boolean save(Product product) {
-        return false;
+    public Product save(Product product) {
+        try {
+            Product proNew = productRepository.save(product);
+            return proNew;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface ProductService {
 
     Product findById(int productId);
 
-    boolean save(Product product);
+    Product save(Product product);
 
     boolean update(Product product);
 

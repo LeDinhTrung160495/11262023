@@ -27,6 +27,7 @@
         <option value="ASC" ${direction.equals("ASC")?'selected':''}>Ascending</option>
         <option value="DESC" ${direction.equals("DESC")?'selected':''}>Descending</option>
     </select>
+    <a href="<%=request.getContextPath()%>/productController/initCreate">Create New Product</a>
     <table border="1">
         <thead>
             <tr>
@@ -35,6 +36,7 @@
                 <th>Product Name</th>
                 <th>Price</th>
                 <th>Title</th>
+                <th>Image</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -49,6 +51,7 @@
                     <td>${product.productName}</td>
                     <td>${product.price}</td>
                     <td>${product.title}</td>
+                    <td><img src="${product.image}" alt="${product.productName}" width="50" height="50"/></td>
                     <td>${product.status?"Active":"Inactive"}</td>
                     <td>
                         <a href="">Update</a>

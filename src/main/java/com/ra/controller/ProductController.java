@@ -1,14 +1,21 @@
 package com.ra.controller;
 
+import com.ra.model.Images;
 import com.ra.model.Product;
+import com.ra.service.ImageService;
 import com.ra.service.ProductService;
+import com.ra.service.UploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +24,10 @@ import java.util.Optional;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private UploadFileService uploadFileService;
+    @Autowired
+    private ImageService imageService;
     private static final int SIZE = 3;
     private static String productNameDefault = "";
     private static String directionDefault = "ASC";
@@ -42,5 +53,31 @@ public class ProductController {
         mav.addObject("sortBy",sortByDefault);
         mav.addObject("direction",directionDefault);
         return mav;
+    }
+    @GetMapping(value = "/initCreate")
+    public String initCreateProduct(ModelMap modelMap){
+        Product product = new Product();
+        modelMap.addAttribute("product",product);
+        return "newProduct";
+    }
+    @PostMapping(value = "/create")
+    public String createProduct(Product product, MultipartFile productImage, MultipartFile[] otherImages){
+        String urlImage = uploadFileService.uploadFile(productImage);
+        product.setImage(urlImage);
+        Product proNew = productService.save(product);
+        if (proNew!=null){
+            //Thuc hien them moi cac anh phu cua san pham
+            Arrays.asList(otherImages).forEach(image->{
+                String imageLink = uploadFileService.uploadFile(image);
+                Images images = new Images();
+                images.setProduct(proNew);
+                images.setImageUrl(imageLink);
+                //Them moi vao model Images
+                boolean result = imageService.save(images);
+            });
+            return "redirect:findProduct";
+        }else{
+            return "error";
+        }
     }
 }

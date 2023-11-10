@@ -12,6 +12,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -25,7 +27,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.ra.controller","com.ra.serviceImp","com.ra.model","com.ra.repository"})
+@ComponentScan(basePackages = {"com.ra.controller","com.ra.serviceImp","com.ra.model","com.ra.repository","com.ra.config"})
 @EnableJpaRepositories("com.ra.repository")
 public class AppConfig implements WebMvcConfigurer {
     @Bean
@@ -36,7 +38,8 @@ public class AppConfig implements WebMvcConfigurer {
         return resolver;
     }
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("resources/**")
+                .addResourceLocations("/resources/");
     }
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
@@ -75,5 +78,12 @@ public class AppConfig implements WebMvcConfigurer {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver(){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(5*1024*1024);
+        return multipartResolver;
     }
 }
