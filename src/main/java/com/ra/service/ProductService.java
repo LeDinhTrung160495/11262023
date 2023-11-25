@@ -9,11 +9,11 @@ public interface ProductService {
 
     List<Integer> getListPage(String productName, int size);
 
-    Product findById(int productId);
+    Product findById(String productId);
 
     Product save(Product product);
 
     boolean update(Product product);
 
-    boolean delete(int productId);
+    boolean delete(String productId);
 }

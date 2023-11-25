@@ -7,17 +7,23 @@ import java.util.List;
 @Table(name = "Product")
 public class Product {
     @Id
-    @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productId;
-    @Column(name = "product_name")
+    @Column(name = "product_id",length = 5)
+    private String productId;
+    @Column(name = "product_name",length = 150,nullable = false,unique = true)
     private String productName;
     @Column(name = "price")
     private float price;
     @Column(name = "title")
     private String title;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "unit")
+    private String unit;
     @Column(name = "product_status")
     private boolean status;
+    @ManyToOne
+    @JoinColumn(name = "catalog_id",referencedColumnName = "catalog_id")
+    private Categories catalog;
     @Column(name = "product_image")
     private String image;
     @OneToMany(mappedBy = "product")
@@ -26,21 +32,24 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, String productName, float price, String title, boolean status, String image, List<Images> listImages) {
+    public Product(String productId, String productName, float price, String title, String description, String unit, boolean status, Categories catalog, String image, List<Images> listImages) {
         this.productId = productId;
         this.productName = productName;
         this.price = price;
         this.title = title;
+        this.description = description;
+        this.unit = unit;
         this.status = status;
+        this.catalog = catalog;
         this.image = image;
         this.listImages = listImages;
     }
 
-    public int getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -68,12 +77,36 @@ public class Product {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public boolean isStatus() {
         return status;
     }
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Categories getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Categories catalog) {
+        this.catalog = catalog;
     }
 
     public String getImage() {

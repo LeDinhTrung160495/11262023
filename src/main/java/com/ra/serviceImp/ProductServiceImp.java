@@ -17,12 +17,13 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+
     @Override
     public List<Product> displayData(String productName, int page, int size, String direction, String sortBy) {
         //Khởi tạo đối tượng Pageable
-        Pageable pageable = PageRequest.of(page,size,
-                direction.equals("ASC")? Sort.Direction.ASC: Sort.Direction.DESC,sortBy);
-        List<Product> listProduct = productRepository.findByProductName(productName,pageable).getContent();
+        Pageable pageable = PageRequest.of(page, size,
+                direction.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+        List<Product> listProduct = productRepository.findByProductName(productName, pageable).getContent();
         return listProduct;
     }
 
@@ -31,13 +32,19 @@ public class ProductServiceImp implements ProductService {
         int countProduct = productRepository.countByProductNameContains(productName);
         List<Integer> listPage = new ArrayList<>();
         for (int i = 0; i < (int) Math.ceil((double) countProduct / (double) size); i++) {
-            listPage.add(i+1);
+            listPage.add(i + 1);
         }
         return listPage;
     }
 
     @Override
-    public Product findById(int productId) {
+    public Product findById(String productId) {
+        try {
+            Product productById = productRepository.findById(productId).get();
+            return productById;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return null;
     }
 
@@ -46,7 +53,7 @@ public class ProductServiceImp implements ProductService {
         try {
             Product proNew = productRepository.save(product);
             return proNew;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
@@ -54,11 +61,23 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public boolean update(Product product) {
+        try {
+            productRepository.save(product);
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return false;
     }
 
     @Override
-    public boolean delete(int productId) {
+    public boolean delete(String productId) {
+        try {
+            productRepository.deleteById(productId);
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return false;
     }
 }

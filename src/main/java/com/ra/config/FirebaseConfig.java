@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 
 @Configuration
 public class FirebaseConfig {
-    private final String serviceAccountKeyPath = "D:\\RikkeiAcademy\\Class\\RA_Fukuoka_JV230508\\ProductManagement\\src\\main\\webapp\\resources\\firebaseConfig.json";
+    private final String serviceAccountKeyPath = "D:\\6.MODULE4\\New folder\\ra_jv230508_studentmanagement\\src\\main\\webapp\\resources\\firebaseConfig.json";
 
     @Bean
     public Storage storage() throws IOException {

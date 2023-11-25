@@ -21,7 +21,7 @@ public class UploadFileServiceImp implements UploadFileService {
     private Storage storage;
     @Autowired
     private ServletContext servletContext;
-    private final String BUCK_NAME = "ecommerce-33792.appspot.com";
+    private final String BUCK_NAME = "ecommerce-1c582.appspot.com";
     /*
     * 1. Tạo thư mục upload trong tomcat
     * 2. Copy ảnh từ multipart sang thư mục upload

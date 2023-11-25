@@ -1,7 +1,9 @@
 package com.ra.controller;
 
+import com.ra.model.Categories;
 import com.ra.model.Images;
 import com.ra.model.Product;
+import com.ra.service.CategoriesService;
 import com.ra.service.ImageService;
 import com.ra.service.ProductService;
 import com.ra.service.UploadFileService;
@@ -25,6 +27,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
+    private CategoriesService categoriesService;
+    @Autowired
     private UploadFileService uploadFileService;
     @Autowired
     private ImageService imageService;
@@ -33,50 +37,54 @@ public class ProductController {
     private static String directionDefault = "ASC";
     private static String sortByDefault = "productId";
     private static int pageDefault = 1;
-
     @GetMapping("/findProduct")
     public ModelAndView displayProduct(Optional<String> productName, Optional<Integer> page,
                                        Optional<String> direction, Optional<String> sortBy) {
         ModelAndView mav = new ModelAndView("products");
-        productNameDefault=productName.orElse(productNameDefault);
-        directionDefault=direction.orElse(directionDefault);
-        sortByDefault=sortBy.orElse(sortByDefault);
-        pageDefault=page.orElse(pageDefault);
+        productNameDefault = productName.orElse(productNameDefault);
+        directionDefault = direction.orElse(directionDefault);
+        sortByDefault = sortBy.orElse(sortByDefault);
+        pageDefault = page.orElse(pageDefault);
         //Lấy dữ liệu hiển thị
-        List<Product> listProducts = productService.displayData(productNameDefault,pageDefault-1,SIZE,
-                directionDefault,sortByDefault);
+        List<Product> listProducts = productService.displayData(productNameDefault, pageDefault - 1, SIZE,
+                directionDefault, sortByDefault);
         //Lấy ra danh sách các trang theo kết quả tìm kiếm
-        List<Integer> listPages = productService.getListPage(productNameDefault,SIZE);
-        mav.addObject("listProducts",listProducts);
-        mav.addObject("listPages",listPages);
-        mav.addObject("productName",productNameDefault);
-        mav.addObject("sortBy",sortByDefault);
-        mav.addObject("direction",directionDefault);
+        List<Integer> listPages = productService.getListPage(productNameDefault, SIZE);
+        mav.addObject("listProducts", listProducts);
+        mav.addObject("listPages", listPages);
+        mav.addObject("productName", productNameDefault);
+        mav.addObject("sortBy", sortByDefault);
+        mav.addObject("direction", directionDefault);
         return mav;
     }
+
     @GetMapping(value = "/initCreate")
-    public String initCreateProduct(ModelMap modelMap){
+    public String initCreateProduct(ModelMap modelMap) {
         Product product = new Product();
-        modelMap.addAttribute("product",product);
+        //Lấy thông tin tất cả các danh mục
+        List<Categories> listCategories = categoriesService.getAllCatalog();
+        modelMap.addAttribute("product", product);
+        modelMap.addAttribute("listCategories",listCategories);
         return "newProduct";
     }
+
     @PostMapping(value = "/create")
-    public String createProduct(Product product, MultipartFile productImage, MultipartFile[] otherImages){
+    public String createProduct(Product product, MultipartFile productImage, MultipartFile[] otherImages) {
         String urlImage = uploadFileService.uploadFile(productImage);
         product.setImage(urlImage);
         Product proNew = productService.save(product);
-        if (proNew!=null){
-            //Thuc hien them moi cac anh phu cua san pham
-            Arrays.asList(otherImages).forEach(image->{
+        if (proNew != null) {
+            // Thực hiện thêm mới các ảnh phụ của sản phẩm
+            Arrays.asList(otherImages).forEach(image -> {
                 String imageLink = uploadFileService.uploadFile(image);
                 Images images = new Images();
                 images.setProduct(proNew);
                 images.setImageUrl(imageLink);
-                //Them moi vao model Images
+                // Thêm mới vào model Images
                 boolean result = imageService.save(images);
             });
             return "redirect:findProduct";
-        }else{
+        } else {
             return "error";
         }
     }

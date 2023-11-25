@@ -35,7 +35,10 @@
                 <th>Product Id</th>
                 <th>Product Name</th>
                 <th>Price</th>
+                <th>Catalog Name</th>
                 <th>Title</th>
+                <th>Description</th>
+                <th>Unit</th>
                 <th>Image</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -50,7 +53,10 @@
                     <td>${product.productId}</td>
                     <td>${product.productName}</td>
                     <td>${product.price}</td>
+                    <td>${product.catalog.catalogName}</td>
                     <td>${product.title}</td>
+                    <td>${product.description}</td>
+                    <td>${product.unit}</td>
                     <td><img src="${product.image}" alt="${product.productName}" width="50" height="50"/></td>
                     <td>${product.status?"Active":"Inactive"}</td>
                     <td>
