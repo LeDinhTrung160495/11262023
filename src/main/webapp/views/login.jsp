@@ -35,15 +35,14 @@
     <section class="section-login">
         <h3>Đăng Nhập</h3>
         <p>Xin chào, Admin!</p>
-        <form id="form-login" method="POST">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email"/>
+        <form id="form-login" method="POST" action="<%=request.getContextPath()%>/loginController/checkLogin" enctype="application/json">
+            <label for="userName">Email</label>
+            <input type="email" name="userName" id="userName"/>
             <label for="password">Password</label>
             <input type="password" name="password" id="password"/>
             <button type="submit" id="btnSubmit">Đăng nhập để vào Admin</button>
         </form>
     </section>
-<%--    <script src="<%=request.getContextPath()%>/resources/js/login.js"></script>--%>
 </div>
 </body>
 </html>

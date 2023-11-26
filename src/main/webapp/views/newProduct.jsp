@@ -36,8 +36,8 @@
     <label for="otherImages">Image</label>
     <input type="file" id="otherImages" name="otherImages" multiple/><br>
     <label for="active">Status</label>
-    <input type="radio" id="active" name="status" checked/><label for="active">Active</label>
-    <input type="radio" id="inactive" name="status"/><label for="inactive">Inactive</label><br>
+    <input type="radio" id="active" name="status" value="true" checked/><label for="active">Active</label>
+    <input type="radio" id="inactive" name="status" value="false"/><label for="inactive">Inactive</label><br>
     <input type="submit" value="Create"/>
 </form>
 </body>
