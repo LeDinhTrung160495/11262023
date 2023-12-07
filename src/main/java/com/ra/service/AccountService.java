@@ -20,7 +20,9 @@ public interface AccountService {
 
     int statisticalAccountActive();
 
-    int getStatisticalAccountInactive();
+    int statisticalAccountInactive();
 
     List<Integer> getListPage(String userName, int size);
+    boolean lockAccount(int accId);
+    boolean unlockAccount(int accId);
 }

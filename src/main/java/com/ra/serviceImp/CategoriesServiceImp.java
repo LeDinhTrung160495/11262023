@@ -74,12 +74,12 @@ public class CategoriesServiceImp implements CategoriesService {
 
     @Override
     public boolean delete(int catalogId) {
-        try {
-            categoriesRepository.deleteById(catalogId);
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            try {
+                categoriesRepository.deleteById(catalogId);
+                return true;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         return false;
     }
 }

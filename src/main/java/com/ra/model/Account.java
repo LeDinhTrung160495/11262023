@@ -24,19 +24,20 @@ public class Account {
     private boolean permission;
     @Column(name = "account_status")
     private boolean accountStatus;
-//    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-//    private List<Bill> listBill;
+    @OneToMany(mappedBy = "account")
+    private List<Bill> listBill;
 
     public Account() {
     }
 
-    public Account(int accountId, String userName, String password, Date created, boolean permission, boolean accountStatus) {
+    public Account(int accountId, String userName, String password, Date created, boolean permission, boolean accountStatus, List<Bill> listBill) {
         this.accountId = accountId;
         this.userName = userName;
         this.password = password;
         this.created = created;
         this.permission = permission;
         this.accountStatus = accountStatus;
+        this.listBill = listBill;
     }
 
     public int getAccountId() {
@@ -85,5 +86,13 @@ public class Account {
 
     public void setAccountStatus(boolean accountStatus) {
         this.accountStatus = accountStatus;
+    }
+
+    public List<Bill> getListBill() {
+        return listBill;
+    }
+
+    public void setListBill(List<Bill> listBill) {
+        this.listBill = listBill;
     }
 }

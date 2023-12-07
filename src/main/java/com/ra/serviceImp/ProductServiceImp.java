@@ -1,6 +1,8 @@
 package com.ra.serviceImp;
 
+import com.ra.model.Categories;
 import com.ra.model.Product;
+import com.ra.repository.CategoriesRepository;
 import com.ra.repository.ProductRepository;
 import com.ra.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +12,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Book;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImp implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoriesRepository categoriesRepository;
 
     @Override
     public List<Product> displayData(String productName, int page, int size, String direction, String sortBy) {
@@ -60,14 +66,14 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public boolean update(Product product) {
+    public Product update(Product product) {
         try {
-            productRepository.save(product);
-            return true;
+            Product updatedProduct = productRepository.save(product);
+            return updatedProduct;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -79,5 +85,26 @@ public class ProductServiceImp implements ProductService {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean productHaveCatalogId(int catalogId) {
+        List<Product> productList = productRepository.findAll().stream().filter(product -> product.getCatalog().getCatalogId() == catalogId).collect(Collectors.toList());
+        return productList.size() > 0;
+    }
+
+    @Override
+    public int statisticalProductActive() {
+        return productRepository.findProductByStatusIsTrue().size();
+    }
+
+    @Override
+    public int statisticalProductInactive() {
+        return (productRepository.findAll().size() - productRepository.findProductByStatusIsTrue().size());
+    }
+
+    @Override
+    public List<Product> getAllData() {
+        return productRepository.findAll();
     }
 }

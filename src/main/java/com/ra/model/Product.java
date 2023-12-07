@@ -7,9 +7,9 @@ import java.util.List;
 @Table(name = "Product")
 public class Product {
     @Id
-    @Column(name = "product_id",length = 5)
+    @Column(name = "product_id", length = 5)
     private String productId;
-    @Column(name = "product_name",length = 150,nullable = false,unique = true)
+    @Column(name = "product_name", length = 150, nullable = false, unique = true)
     private String productName;
     @Column(name = "price")
     private float price;
@@ -22,17 +22,19 @@ public class Product {
     @Column(name = "product_status")
     private boolean status;
     @ManyToOne
-    @JoinColumn(name = "catalog_id",referencedColumnName = "catalog_id")
+    @JoinColumn(name = "catalog_id", referencedColumnName = "catalog_id")
     private Categories catalog;
     @Column(name = "product_image")
     private String image;
     @OneToMany(mappedBy = "product")
     private List<Images> listImages;
+    @OneToMany(mappedBy = "product")
+    private List<BillDetail> listBillDetail;
 
     public Product() {
     }
 
-    public Product(String productId, String productName, float price, String title, String description, String unit, boolean status, Categories catalog, String image, List<Images> listImages) {
+    public Product(String productId, String productName, float price, String title, String description, String unit, boolean status, Categories catalog, String image, List<Images> listImages, List<BillDetail> listBillDetail) {
         this.productId = productId;
         this.productName = productName;
         this.price = price;
@@ -43,6 +45,7 @@ public class Product {
         this.catalog = catalog;
         this.image = image;
         this.listImages = listImages;
+        this.listBillDetail = listBillDetail;
     }
 
     public String getProductId() {
@@ -123,5 +126,13 @@ public class Product {
 
     public void setListImages(List<Images> listImages) {
         this.listImages = listImages;
+    }
+
+    public List<BillDetail> getListBillDetail() {
+        return listBillDetail;
+    }
+
+    public void setListBillDetail(List<BillDetail> listBillDetail) {
+        this.listBillDetail = listBillDetail;
     }
 }

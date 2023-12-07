@@ -15,9 +15,8 @@ public class Categories {
     private int catalogId;
     @Column(name = "catalog_name")
     private String catalogName;
-    @Column(name = "created")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date created;
+    @Column(name = "description")
+    private String description;
     @Column(name = "catalog_status")
     private boolean status;
     @OneToMany(mappedBy = "catalog")
@@ -26,10 +25,10 @@ public class Categories {
     public Categories() {
     }
 
-    public Categories(int catalogId, String catalogName, Date created, boolean status, List<Product> listProduct) {
+    public Categories(int catalogId, String catalogName, String description, boolean status, List<Product> listProduct) {
         this.catalogId = catalogId;
         this.catalogName = catalogName;
-        this.created = created;
+        this.description = description;
         this.status = status;
         this.listProduct = listProduct;
     }
@@ -50,12 +49,12 @@ public class Categories {
         this.catalogName = catalogName;
     }
 
-    public Date getCreated() {
-        return created;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isStatus() {

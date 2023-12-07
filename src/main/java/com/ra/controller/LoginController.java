@@ -1,6 +1,5 @@
 package com.ra.controller;
 
-import com.ra.dto.request.FormLoginDTO;
 import com.ra.model.Account;
 import com.ra.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class LoginController {
     @PostMapping(value = "/checkLogin")
     public String login(@ModelAttribute Account body) {
         if(loginService.login(body.getUserName(), body.getPassword())){
-            return "redirect:/productController/findProduct";
+            return "redirect:/dashboardController/dashboard";
         }
         return "error";
     }

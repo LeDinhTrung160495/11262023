@@ -24,7 +24,7 @@ public class AccountController {
 
     @GetMapping("/findAccount")
     public ModelAndView displayAccount(Optional<String> userName, Optional<Integer> page, Optional<String> direction, Optional<String> sortBy) {
-        ModelAndView mav = new ModelAndView("account");
+        ModelAndView mav = new ModelAndView("accounts");
         userNameDefault = userName.orElse(userNameDefault);
         directionDefault = direction.orElse(directionDefault);
         sortByDefault = sortBy.orElse(sortByDefault);
@@ -37,6 +37,24 @@ public class AccountController {
         mav.addObject("sortBy", sortByDefault);
         mav.addObject("direction", directionDefault);
         return mav;
+    }
+
+    @GetMapping(value = "/lockAccount")
+    public String lockAccount(int accountId) {
+        if (accountService.lockAccount(accountId)) {
+            return "redirect:findAccount";
+        } else {
+            return "error";
+        }
+    }
+
+    @GetMapping(value = "/unlockAccount")
+    public String unlockAccount(int accountId) {
+        if (accountService.unlockAccount(accountId)) {
+            return "redirect:findAccount";
+        } else {
+            return "error";
+        }
     }
 }
 

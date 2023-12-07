@@ -1,5 +1,6 @@
 package com.ra.service;
 
+import com.ra.model.Account;
 import com.ra.model.Product;
 
 import java.util.List;
@@ -13,7 +14,15 @@ public interface ProductService {
 
     Product save(Product product);
 
-    boolean update(Product product);
+    Product update(Product product);
 
     boolean delete(String productId);
+
+    boolean productHaveCatalogId(int catalogId);
+
+    int statisticalProductActive();
+
+    int statisticalProductInactive();
+
+    List<Product> getAllData();
 }

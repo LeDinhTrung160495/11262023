@@ -15,13 +15,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"/>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dashboard.css"/>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/product.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bill.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,200;1,300;1,700;1,800&family=Readex+Pro:wght@500&family=Roboto:ital,wght@0,400;0,500;0,700;1,500;1,700&display=swap"
           rel="stylesheet"/>
-    <title>List Product</title>
+    <title>List Bill</title>
 </head>
 <body>
 <section class="dashboard">
@@ -41,21 +41,21 @@
             </li>
             <li>
                 <a href="<%=request.getContextPath()%>/productController/findProduct"
-                   class="nav-link active text-white text-center d-flex justify-content-center gap-2 d-flex align-items-center">
+                   class="nav-link text-white text-center d-flex justify-content-center gap-2 d-flex align-items-center">
                     <i class="fa-solid fa-school"></i>Quản trị sản phẩm</a>
             </li>
             <li>
                 <a href="<%=request.getContextPath()%>/accountController/findAccount"
-                   class="nav-link text-white text-center d-flex justify-content-center gap-2 d-flex align-items-center">
+                   class="nav-link  text-white text-center d-flex justify-content-center gap-2 d-flex align-items-center">
                     <i class="fa-solid fa-graduation-cap"></i>Quản lý tài khoản</a>
             </li>
             <li>
                 <a href="<%=request.getContextPath()%>/billController/findBill"
-                   class="nav-link text-white text-center d-flex justify-content-center gap-2 d-flex align-items-center">
+                   class="nav-link active text-white text-center d-flex justify-content-center gap-2 d-flex align-items-center">
                     <i class="fa-solid fa-file-invoice"></i>Quản lý đơn hàng</a>
             </li>
             <li>
-                <a href="#"
+                <a href=""
                    class="nav-link text-white text-center d-flex justify-content-center gap-2 d-flex align-items-center">
                     <i class="fa-solid fa-file-invoice"></i>Đơn hàng chi tiết</a>
             </li>
@@ -80,27 +80,22 @@
                 <p class="title-text">Cần Thơ - Tiền Giang - Hồ Chí Minh</p>
             </div>
         </div>
-        <div class="productManagement">
+        <div class="billManagement">
             <div class="item">
-                <div class="button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    ><a href="<%=request.getContextPath()%>/productController/initCreate" style="color: white">Thêm mới sản phẩm</a>
-                    </button>
-                </div>
                 <div class="form">
-                    <form action="<%=request.getContextPath()%>/productController/findProduct" method="get">
-                        <label for="productNameSearch">Tên sản phẩm</label>
-                        <input type="text" id="productNameSearch" name="productName" value="${productName}"
-                               placeholder="Nhập tên sản phẩm tìm kiếm" aria-label="Username"
-                               aria-describedby="basic-addon1"/>
+                    <form action="<%=request.getContextPath()%>/billController/findBill" method="get">
+                        <label for="billIdSearch">Mã đơn hàng</label>
+                        <input type="text" placeholder="Nhập mã đơn hàng tìm kiếm" aria-label="Username"
+                               aria-describedby="basic-addon1" id="billIdSearch" name="billId"
+                               value="${billId}"/>
                         <input type="submit" value="Tìm kiếm" class="btn btn-primary"/>
                     </form>
                     <label for="sortBy">Sắp xếp</label>
                     <select aria-label="Default select example" id="sortBy" name="sortBy" onchange="changeSortBy()">
-                        <option value="productId" ${sortBy.equals("productId")?'selected':''}>Mã sản phẩm</option>
-                        <option value="productName" ${sortBy.equals("productName")?'selected':''}>Tên sản phẩm
+                        <option value="created" ${sortBy.equals("created")?'selected':''}>Ngày tạo
                         </option>
-                        <option value="price" ${sortBy.equals("price")?'selected':''}>Giá sản phẩm</option>
+                        <option value="billId" ${sortBy.equals("billId")?'selected':''}>Mã đơn hàng
+                        </option>
                     </select>
                     <select aria-label="Default select example" id="direction" name="direction"
                             onchange="changeDirection()">
@@ -112,37 +107,30 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Mã sản phẩm</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Giá sản phẩm</th>
-                    <th>Tên danh mục</th>
-                    <th>Tiêu đề sản phẩm</th>
-                    <th>Mô tả sản phẩm</th>
-                    <th>Ảnh sản phẩm</th>
-                    <th>Đơn vị sản phẩm</th>
-                    <th>Trạng thái</th>
-                    <th>Hành động</th>
+                    <th scope="col">STT</th>
+                    <th scope="col">Mã đơn hàng</th>
+                    <th scope="col">Mã tài khoản đặt hàng</th>
+                    <th scope="col">Ngày tạo</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Hành Động</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:set var="stt" value="0" scope="page"/>
-                <c:forEach items="${listProducts}" var="product">
+                <c:forEach items="${listBill}" var="bill">
                     <c:set var="stt" value="${stt+1}" scope="page"/>
                     <tr>
                         <td>${stt}</td>
-                        <td>${product.productId}</td>
-                        <td>${product.productName}</td>
-                        <td><fmt:formatNumber type="number" pattern="###,###vnd" value="${product.price*1000}" /></td>
-                        <td>${product.catalog.catalogName}</td>
-                        <td>${product.title}</td>
-                        <td>${product.description}</td>
-                        <td><img src="${product.image}" alt="${product.productName}"style="max-width: 50px; max-height: 50px;" /></td>
-                        <td>${product.unit}</td>
-                        <td>${product.status?"Hoạt động":"Không hoạt động"}</td>
+                        <td>${bill.billId}</td>
+                        <td>${bill.account.userName}</td>
+                        <td><fmt:formatDate value="${bill.created}" pattern="dd/MM/yyyy"/></td>
                         <td>
-                            <a href="<%=request.getContextPath()%>/productController/initUpdate?productId=${product.productId}">Cập nhập</a>
-                            <a href="<%=request.getContextPath()%>/productController/delete?productId=${product.productId}">Xóa</a>
+                                ${bill.status==1?"Đang chờ":bill.status==2?"Đã Duyệt": bill.status==3?"Đang Giao": bill.status==4?"Đã nhận":"Hủy đơn"}
+                        </td>
+                        <td><a href="<%=request.getContextPath()%>/billController/cancelBill?billId=${bill.billId}">Hủy
+                            đơn hàng</a>
+                            <a href="<%=request.getContextPath()%>/billDetailController/findBillDetail?billId=${bill.billId}">Xem
+                                đơn hàng chi tiết</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -153,7 +141,7 @@
                     <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                     <c:forEach items="${listPages}" var="page">
                         <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>
-                            /productController/findProduct?page=${page}">${page}</a></li>
+                            /billController/findBill?page=${page}">${page}</a></li>
                     </c:forEach>
                     <li class="page-item"><a class="page-link" href="#">Next</a></li>
                 </ul>
@@ -165,12 +153,11 @@
         </div>
     </div>
 </section>
-
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"
 ></script>
-<script src="<%=request.getContextPath()%>/resources/js/product.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/bill.js"></script>
 </body>
 </html>

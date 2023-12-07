@@ -17,10 +17,5 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     List<Account> findAll();
     List<Account> findAllByAccountStatusIsTrue();
-
-    @Query("SELECT COUNT(ac) FROM Account ac WHERE ac.accountStatus = true")
-    int statisticalAccountActive();
-
-    @Query("select count(ac) from Account ac where ac.accountStatus = false ")
-    int statisticalAccountInActive();
+    Account findAccountByAccountId(int accId);
 }

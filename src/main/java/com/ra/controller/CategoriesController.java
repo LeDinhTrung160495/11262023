@@ -4,6 +4,7 @@ import com.ra.model.Categories;
 import com.ra.model.Images;
 import com.ra.model.Product;
 import com.ra.service.CategoriesService;
+import com.ra.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +23,8 @@ import java.util.Optional;
 public class CategoriesController {
     @Autowired
     private CategoriesService categoriesService;
+    @Autowired
+    ProductService productService;
     private static final int SIZE = 3;
     private static String catalogNameDefault = "";
     private static String directionDefault = "ASC";
@@ -45,16 +48,37 @@ public class CategoriesController {
         return mav;
     }
 
-    @GetMapping(value = "/initCreate")
-    public String initCreateCatalog(ModelMap modelMap) {
-        Categories catalog = new Categories();
-        modelMap.addAttribute("catalog", catalog);
-        return "newCatalog";
+    @GetMapping(value = "/initUpdate")
+    public String initCatalogUpdate(ModelMap modelMap, int catalogId) {
+        Categories catalogEdit = categoriesService.findById(catalogId);
+        modelMap.addAttribute("catalogEdit", catalogEdit);
+        return "updateCatalog";
     }
 
     @PostMapping(value = "/create")
     public String createCatalog(Categories catalog) {
         if (categoriesService.save(catalog)) {
+            return "redirect:findCatalog";
+        } else {
+            return "error";
+        }
+    }
+
+    @PostMapping(value = "/update")
+    public String updateCatalog(Categories catalog) {
+        if (categoriesService.update(catalog)) {
+            return "redirect:findCatalog";
+        } else {
+            return "error";
+        }
+    }
+
+    @GetMapping(value = "/delete")
+    public String deleteCatalog(int catalogId) {
+        if(productService.productHaveCatalogId(catalogId)){
+            return "error";
+        }
+        if (categoriesService.delete(catalogId)) {
             return "redirect:findCatalog";
         } else {
             return "error";

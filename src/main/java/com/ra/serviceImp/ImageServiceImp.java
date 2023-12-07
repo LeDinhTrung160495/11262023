@@ -6,6 +6,8 @@ import com.ra.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ImageServiceImp implements ImageService {
     @Autowired
@@ -19,5 +21,10 @@ public class ImageServiceImp implements ImageService {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<Images> getImageByProductId(String productId) {
+        return imagesRepository.findImagesByProductId(productId);
     }
 }

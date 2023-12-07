@@ -3,67 +3,54 @@
     margin: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: 'Roboto', sans-serif;
 }
 
-.productManagement ul,
-.productManagement li {
+.billManagement ul,
+.billManagement li {
     display: inline-block;
 }
-
-.productManagement a {
+.billManagement a {
     text-decoration: none;
 }
-
-.productManagement {
+.billManagement {
     margin: 0 auto;
 }
-
-.productManagement tr,
-.productManagement td,
-.productManagement th {
+.billManagement tr,
+.billManagement td,
+.billManagement th {
     border: 1px solid black;
 }
-
-.productManagement table {
+.billManagement table {
     margin-top: 10px;
 }
-
 .item {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-.form {
+.form{
     display: flex;
     align-items: center;
 }
-
-.form #productNameSearch {
+.form #billIdSearch {
     margin-left: 10px;
     width: 250px;
     padding: 5px;
     border-radius: 5px;
 }
-
 #sortBy {
     padding: 5px;
     border-radius: 5px;
 }
-
 #direction {
     padding: 5px;
     border-radius: 5px;
 }
-
 .page {
-    margin-left: 535px;
+    margin-left: 340px;
 }
-
-.dashboard-right-footer p {
+.dashboard-right-footer p{
     margin-top: 15px;
 }
-
